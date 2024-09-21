@@ -1,0 +1,117 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: black;
+    color: white;
+}
+
+header {
+    text-align: center;
+    margin: 10px;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+
+main {
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+main > #input {
+    margin: 10px;
+    padding: 5px;
+    width: 40%;
+    text-align: center;
+}
+main > #input > textarea {
+    width: 95%;
+    height: 300px;
+    margin: 10px;
+    padding: 5px;
+    color: white;
+    background-color: #333333;
+    border: 1px solid #555555;
+    border-radius: 10px;
+    /* box-sizing: border-box; */
+    border: 5px solid #555555;
+    resize: none;
+}
+
+main > #input > button {
+    margin: 10px;
+    padding: 5px;
+    color: white;
+    background-color: #333333;
+    border: 1px solid #555555;
+    /* border-radius: 10px; */
+    cursor: pointer;
+    width: 200px;
+    height: 40px;
+}
+main > #input > button:hover {
+    background-color: #555555;
+}
+
+main > #output {
+    margin: 10px;
+    /* padding-LEFT: 50px; */
+    width: 40%;
+    text-align: center;
+}
+
+main > #output > #outputText {
+    width: 95%;
+    height: 310px;
+    margin: 25px;
+    /* margin-left: 100px; */
+    padding: 5px;
+    color: white;
+    background-color: #333333;
+    border: 1px solid #555555;
+    border-radius: 10px;
+    /* box-sizing: border-box; */
+    border: 5px solid #555555;
+}
+footer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #222;
+    text-align: center;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+    }
+
+footer p {
+    margin: auto 20px;
+    font-size: 1.2em;
+    color: white;
+    margin-bottom: 10px;
+    }
+
+footer a {
+    text-decoration: none;
+    margin: 0 20px;
+    }
+
+footer button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    background-color: #333333;
+    border: 1px solid #555555;
+    color: white;
+    transition: background-color 0.3s ease;
+    }
+
+    footer button:hover {
+    background-color: #0056b3;
+    }

@@ -1,22 +1,26 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from transformers import pipeline
-from flask_cors import CORS  # Enable cross-origin requests
+import warnings
+
+warnings.filterwarnings("ignore")
+
+model_name = "sshleifer/distilbart-cnn-12-6"
+model_revision = "a4f8f3e"
+
+summarizer = pipeline("summarization", model=model_name, revision=model_revision)
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS to allow frontend communication
-
-# Load the text summarizer pipeline from Huggingface
-summarizer = pipeline("summarization")
+CORS(app)  # Enable CORS
 
 @app.route('/summarize', methods=['POST'])
-def summarize_text():
-    data = request.json  # Get the JSON data sent from the frontend
-    text = data.get('text', '')  # Extract the 'text' field from JSON
+def summarize():
+    data = request.json
+    text = data.get('text', '')
     if not text:
-        return jsonify({'error': 'No text provided'}), 400  # Handle error if no text is provided
+        return jsonify({'error': 'Please enter the text'}), 400
+    summary = summarizer(text, max_length=80, min_length=30, do_sample=False)
+    return jsonify({'summary': summary[0]['summary_text']})
 
-    summary = summarizer(text, max_length=80, min_length=30, do_sample=False)  # Summarize the text
-    return jsonify({'summary': summary[0]['summary_text']})  # Return summary to frontend
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)

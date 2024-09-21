@@ -4,51 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Summarizer</title>
-    <script>
-        async function summarizeText() {
-            // Get the input text
-            const inputText = document.getElementById("inputText").value;
-
-            // Show the "Thinking..." message
-            const thinkingMessage = document.getElementById("thinking");
-            thinkingMessage.style.display = "block";
-
-            // Send the request to the Flask backend
-            const response = await fetch('http://127.0.0.1:5000/summarize', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: inputText })
-            });
-
-            // Wait for the response and parse it as JSON
-            const result = await response.json();
-
-            // Hide the "Thinking..." message after the response is received
-            thinkingMessage.style.display = "none";
-
-            // Display the summary output
-            document.getElementById("summary").innerText = result.summary_text;
-        }
-    </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Text Summarizer</h1>
+    </header>
+    <main>
+        <section id="input">
+            <h2>Input:</h2>
+            <textarea id="inputText" rows="10" cols="50" placeholder="Enter text to summarize..." autofocus></textarea><br>
+            <button onclick="summarizeText()">Summarize</button>
+        </section>
+        <section id="output">
+            <h2>Output:</h2>
+            <div id = "outputText">
+                <p id="summaryText"></p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>Connect with me:</p>
+        <a href="https://github.com/Sahil390" target="_blank">
+            <button>GitHub</button>
+        </a>
+        <a href="https://sahilnarang.netlify.app/#intro" target="_blank">
+            <button>Portfolio</button>
+        </a>
+    </footer>
+        <script>
+        async function summarizeText() {
+            const inputText = document.getElementById('inputText').value;
+            const summaryTextElement = document.getElementById('summaryText');
+            
+            // Display loading message
+            summaryTextElement.innerText = 'Loading...';
 
-    <h1>Text Summarizer</h1>
+            try {
+                const response = await fetch('http://localhost:5000/summarize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: inputText })
+                });
 
-    <!-- Text input area -->
-    <textarea id="inputText" rows="5" cols="40" placeholder="Enter text to summarize"></textarea><br><br>
+                const data = await response.json();
 
-    <!-- Button to send the input to the backend -->
-    <button onclick="summarizeText()">Summarize</button>
-
-    <!-- Thinking message -->
-    <p id="thinking" style="display:none; color:blue;">Thinking...</p>
-
-    <!-- Area to display the summary -->
-    <h3>Summary:</h3>
-    <p id="summary"></p>
-
+                if (response.ok) {
+                    summaryTextElement.innerText = data.summary;
+                } else {
+                    summaryTextElement.innerText = data.error || 'An error occurred';
+                }
+            } catch (error) {
+                summaryTextElement.innerText = 'An error occurred';
+            }
+        }
+    </script>
 </body>
 </html>
