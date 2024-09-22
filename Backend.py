@@ -5,10 +5,9 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+# Corrected pipeline instantiation
 model_name = "sshleifer/distilbart-cnn-12-6"
-model_revision = "a4f8f3e"
-
-summarizer = pipeline("summarization", model=model_name, revision=model_revision)
+summarizer = pipeline('summarization', model=model_name, tokenizer=model_name)  # Remove 'from_pt=True'
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS
