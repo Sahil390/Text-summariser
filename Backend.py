@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from transformers import pipeline
@@ -22,4 +23,4 @@ def summarize():
     return jsonify({'summary': summary[0]['summary_text']})
 
 if __name__ == "__main__":
-    app.run(debug=False,host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0', port=8080)
