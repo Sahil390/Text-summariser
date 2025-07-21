@@ -12,4 +12,4 @@ EXPOSE 8080
 
 ENV PORT=8080
 
-CMD ["python", "Backend.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "Backend:app"]
