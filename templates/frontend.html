@@ -41,7 +41,7 @@
             summaryTextElement.innerText = 'Loading...';
 
             try {
-                const response = await fetch('http://localhost:8080/summarize', {
+                                const response = await fetch('/summarize', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
