@@ -1,12 +1,15 @@
 import os
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-import requests
-from transformers import pipeline
+import google.generativeai as genai
 
 
-# Use Hugging Face summarization model
-summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+# Configure the Gemini API key
+# Replace "YOUR_API_KEY" with your actual Gemini API key
+genai.configure(api_key="AIzaSyAy8MecUMmBp2xSqMhSBihX8EPRZwdzbt0")
+
+# Create the Gemini model
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 
 app = Flask(__name__, template_folder='templates')
@@ -24,9 +27,15 @@ def summarize():
         return jsonify({'error': 'Please enter the text'}), 400
 
     try:
-        summary = summarizer(text, max_length=80, min_length=30, do_sample=False)
-        return jsonify({'summary': summary[0]['summary_text']})
+        # Generate the summary using the Gemini API
+        response = model.generate_content(f"""Summarize the following text:
+
+{text}""")
+        return jsonify({'summary': response.text})
     except Exception as e:
+        import traceback
+        print('Gemini API error:', e)
+        traceback.print_exc()
         return jsonify({'error': 'Summarization failed', 'details': str(e)}), 500
 
 
